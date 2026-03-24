@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Medical Blog Website
 
-## Getting Started
+A modern, high-performance medical blog built with Next.js 14 App Router, Tailwind CSS, and Decap CMS. Designed specifically for medical professionals to share insights, attract patients, and seamlessly manage content.
 
-First, run the development server:
+## 🚀 Features
+
+- **Blazing Fast Performance**: Statically Generated (SSG) with Next.js App Router for optimal load times and SEO.
+- **Modern Design System**: Custom medical-themed color palette and typography (Inter & Lora) tailored for readability and trust.
+- **Git-Based CMS**: Decap CMS integration for seamless content management directly from your GitHub repository.
+- **Markdown Rendering**: Robust `.md` file parsing using `gray-matter` and `next-mdx-remote` with custom Tailwind prose styling.
+- **Dynamic Routing**: Automatically generated blog posts, category archives, and tag filtering pages.
+- **Powerful Static Search**: Full-text client-side search across all posts powered by Pagefind—no backend required.
+- **Interactive Engagements**: Integrated Giscus for GitHub Discussions-powered comments.
+- **Monetization & Lead Gen**: Built-in promotional widgets, newsletter signup forms, and Razorpay membership infrastructure.
+- **SEO Optimized**: Automated sitemap generation and semantic HTML structure.
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Content Management**: [Decap CMS](https://decapcms.org/) (formerly Netlify CMS)
+- **Markdown Engine**: [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote)
+- **Search**: [Pagefind](https://pagefind.app/)
+- **Comments**: [Giscus](https://giscus.app/)
+- **Authentication/JWT**: [jose](https://github.com/panva/jose)
+
+## 📦 Getting Started
+
+### Prerequisites
+
+- Node.js 18.x or later
+- npm or yarn
+- A GitHub repository (for Decap CMS and Giscus)
+
+### 1. Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/krishna-info/medical_blogps.git
+cd medical_blogps
+npm install
+```
+
+### 2. Environment Variables
+
+Create a `.env.local` file in the root directory and add the necessary environment variables for your third-party integrations (Razorpay, JWT, etc.):
+
+```env
+JWT_SECRET="your_super_secret_jwt_key"
+RAZORPAY_KEY_ID="your_razorpay_key"
+RAZORPAY_KEY_SECRET="your_razorpay_secret"
+NEXT_PUBLIC_SITE_URL="http://localhost:3000"
+```
+
+### 3. Development Server
+
+Start the local development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📝 Content Management (Decap CMS)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To access the admin dashboard and start writing posts:
 
-## Learn More
+1. Navigate to `/admin` (e.g., `http://localhost:3000/admin`).
+2. Authenticate using your GitHub account.
+3. Use the visual editor to create, edit, or delete markdown posts. All changes are committed directly to your repository!
 
-To learn more about Next.js, take a look at the following resources:
+## 🔍 Search Integration (Pagefind)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Search indexing is handled automatically during the build process via the `postbuild` script. To test search locally:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+```
+This will compile the static site and run `pagefind` to generate the search index inside the `public/pagefind` directory.
 
-## Deploy on Vercel
+## 🤝 Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contributions, issues, and feature requests are welcome!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+
+This project is open-source and available under the MIT License.
