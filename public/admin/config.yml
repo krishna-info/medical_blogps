@@ -1,0 +1,46 @@
+backend:
+  name: github
+  repo: your-org/medical-blog
+  branch: main
+
+media_folder: public/images
+public_folder: /images
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: YOUR_CLOUD_NAME
+    api_key: YOUR_API_KEY
+
+collections:
+  - name: posts
+    label: Blog Posts
+    folder: content/posts
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { name: title, widget: string }
+      - { name: date, widget: datetime }
+      - { name: author, widget: relation, collection: authors, search_fields: [name], value_field: slug }
+      - { name: category, widget: select, options: [Cardiology, Dermatology, Nutrition, Mental Health, Pediatrics, Research, Wellness] }
+      - { name: tags, widget: list }
+      - { name: excerpt, widget: text }
+      - { name: featured_image, widget: image }
+      - { name: content_type, widget: select, options: [article, case_study, news, video] }
+      - { name: affiliate_disclosure, widget: boolean, default: false }
+      - { name: member_only, widget: boolean, default: false }
+      - { name: seo_title, widget: string, required: false }
+      - { name: seo_description, widget: text, required: false }
+      - { name: body, widget: markdown }
+
+  - name: authors
+    label: Authors
+    folder: content/authors
+    create: true
+    identifier_field: slug
+    fields:
+      - { name: name, widget: string }
+      - { name: slug, widget: string }
+      - { name: credentials, widget: string }
+      - { name: bio, widget: text }
+      - { name: avatar, widget: image }
+      - { name: speciality, widget: string }
