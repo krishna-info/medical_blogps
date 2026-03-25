@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
   // Handle subscription activated
   if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as Stripe.CheckoutSession;
+    const session = event.data.object as Stripe.Checkout.Session;
     const email = session.metadata?.email || session.customer_email || '';
     const tier = session.metadata?.tier || 'basic';
     const customerId = typeof session.customer === 'string' ? session.customer : '';

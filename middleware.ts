@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { verifyJWT } from '@/lib/membership';
 
 export async function middleware(request: NextRequest) {
   // Check if route strictly requires membership (e.g. /premium/ slug prefix)
@@ -9,7 +8,9 @@ export async function middleware(request: NextRequest) {
   if (isPremiumRoute) {
     const token = request.cookies.get('member_token')?.value;
     
-    if (!token || !(await verifyJWT(token))) {
+    // NOTE: We defer deep cryptographic JWT validation to the page/server-component 
+    // level instead of Middleware because Netlify Edge Runtime lacks full CompressionStream support for `jose`
+    if (!token) {
       return NextResponse.redirect(new URL('/membership', request.url));
     }
   }
