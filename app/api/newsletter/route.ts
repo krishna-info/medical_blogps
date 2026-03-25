@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export async function POST(request: Request) {
   try {
     const { email } = await request.json();

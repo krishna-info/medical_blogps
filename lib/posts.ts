@@ -11,9 +11,18 @@ export function getPostSlugs() {
 }
 
 export function getPostBySlug(slug: string) {
-  const realSlug = slug.replace(/\.md$/, '');
+  let decodedSlug = slug;
+  try {
+    decodedSlug = decodeURIComponent(slug);
+  } catch {}
+  
+  const realSlug = decodedSlug.replace(/\.md$/, '');
   const files = getPostSlugs();
-  const fullFileName = files.find(f => f.includes(realSlug));
+  // Allow fallback matching if URL encoded apostrophes mismatch the filesystem
+  const fullFileName = files.find(f => 
+    f.includes(realSlug) || 
+    f.replace(/[’']/g, '').includes(realSlug.replace(/[’']/g, ''))
+  );
   if (!fullFileName) return null;
 
   const fullPath = path.join(postsDirectory, fullFileName);

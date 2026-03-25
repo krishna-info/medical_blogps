@@ -3,7 +3,29 @@ import BlogPost from '@/components/blog/BlogPost';
 import GiscusComments from '@/components/features/GiscusComments';
 import SidebarWidget from '@/components/ads/SidebarWidget';
 import InPostBanner from '@/components/ads/InPostBanner';
+import SocialShare from '@/components/ui/SocialShare';
+import RelatedPosts from '@/components/blog/RelatedPosts';
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
+
+export async function generateMetadata(
+  { params }: { params: { slug: string } }
+): Promise<Metadata> {
+  const post = getPostBySlug(params.slug);
+  if (!post) return {};
+  
+  return {
+    title: `${post.meta.title} | Medical Insights`,
+    description: post.meta.excerpt,
+    openGraph: {
+      title: post.meta.title,
+      description: post.meta.excerpt || '',
+      images: post.meta.featured_image ? [post.meta.featured_image] : [],
+      type: 'article',
+      authors: [post.meta.author],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const slugs = getPostSlugs();
@@ -23,6 +45,25 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <main className="container mx-auto px-4 py-12 max-w-6xl">
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: meta.title,
+            image: meta.featured_image ? [meta.featured_image] : [],
+            datePublished: meta.date ? new Date(meta.date).toISOString() : '',
+            author: [{
+              '@type': 'Person',
+              name: meta.author,
+              url: `https://yourdomain.com/authors/${meta.author.replace(/\s+/g, '-').toLowerCase()}`,
+            }],
+          }),
+        }}
+      />
+      
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <article className="lg:col-span-8">
           <div className="mb-8">
@@ -66,6 +107,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
           {/* In-Post Promo Banner */}
           <InPostBanner />
+
+          {/* Social Share */}
+          <SocialShare url={`https://yourdomain.com/blog/${post.slug}`} title={meta.title} />
+
+          {/* Related Posts */}
+          <RelatedPosts currentSlug={post.slug} category={meta.category} />
 
           {/* Comments Section */}
           <GiscusComments />

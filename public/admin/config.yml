@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: your-org/medical-blog
+  repo: krishna-info/medical_blogps
   branch: main
 
 media_folder: public/images
@@ -8,8 +8,8 @@ public_folder: /images
 media_library:
   name: cloudinary
   config:
-    cloud_name: YOUR_CLOUD_NAME
-    api_key: YOUR_API_KEY
+    cloud_name: dmmk48dvu
+    api_key: 855677263684747
 
 collections:
   - name: posts
